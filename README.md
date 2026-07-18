@@ -19,12 +19,16 @@ Fonctionne depuis GitHub (app Mend hébergée) **et** depuis GitLab (Renovate CE
 
 | Réglage | Valeur | Pourquoi |
 |---------|--------|----------|
-| Base | `config:recommended` | défauts Renovate raisonnables |
+| Base | `config:recommended` | défauts Renovate raisonnables ; groupement des seuls monorepos connus — sinon 1 MR par dépendance (blame précis, revert facile) |
 | Commits | gitmoji `:arrow_up:` (`:pushpin:` pour pins/digests), semantic commits désactivés | convention gitmoji de tous les repos |
-| Groupement | `group:allNonMajor` | 1 seule MR pour les minor/patch → moins de bruit et de pipelines (runner GitLab mono-job) |
+| Majors | `dependencyDashboardApproval` | MR créée uniquement quand on coche la case dans le Dependency Dashboard — zéro bruit non sollicité |
+| Stabilité | `minimumReleaseAge: 3 days` | évite les releases cassées/retirées à chaud (les fixes de sécurité contournent le délai) |
+| Automerge | aucun | tout passe en revue — sur les repos GitOps un merge = déploiement (ArgoCD selfHeal) |
 | Rebase | `rebaseWhen: behind-base-branch` | les projets GitLab sont en merge fast-forward : Renovate maintient ses MRs rebasées donc mergeables |
 | Limites | 3 MRs concurrentes, 2/heure | lisser la charge CI |
 | Divers | dependency dashboard (issue épinglée), timezone Europe/Paris, label `renovate` | visibilité et cohérence |
+
+Décisions revues le 2026-07-18 : `group:allNonMajor` retiré (tout-ou-rien au merge, changelogs mélangés — et l'argument runner est tombé depuis que Renovate CE sort les scans de la CI).
 
 ## Ce qui reste local aux repos
 

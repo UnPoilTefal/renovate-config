@@ -4,8 +4,7 @@
   "extends": [
     "config:recommended",
     ":timezone(Europe/Paris)",
-    ":dependencyDashboard",
-    "group:allNonMajor"
+    ":dependencyDashboard"
   ],
   "semanticCommits": "disabled",
   "commitMessagePrefix": ":arrow_up:",
@@ -13,11 +12,17 @@
   "prConcurrentLimit": 3,
   "prHourlyLimit": 2,
   "rebaseWhen": "behind-base-branch",
+  "minimumReleaseAge": "3 days",
   "packageRules": [
     {
       "description": "Gitmoji :pushpin: pour les pins et digests",
       "matchUpdateTypes": ["pin", "pinDigest", "digest"],
       "commitMessagePrefix": ":pushpin:"
+    },
+    {
+      "description": "Majors créées uniquement sur approbation via le Dependency Dashboard",
+      "matchUpdateTypes": ["major"],
+      "dependencyDashboardApproval": true
     }
   ]
 }
