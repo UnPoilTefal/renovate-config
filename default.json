@@ -1,0 +1,23 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "description": "Preset partagé UnPoilTefal/webdropzone — base commune des repos GitHub et GitLab",
+  "extends": [
+    "config:recommended",
+    ":timezone(Europe/Paris)",
+    ":dependencyDashboard",
+    "group:allNonMajor"
+  ],
+  "semanticCommits": "disabled",
+  "commitMessagePrefix": ":arrow_up:",
+  "labels": ["renovate"],
+  "prConcurrentLimit": 3,
+  "prHourlyLimit": 2,
+  "rebaseWhen": "behind-base-branch",
+  "packageRules": [
+    {
+      "description": "Gitmoji :pushpin: pour les pins et digests",
+      "matchUpdateTypes": ["pin", "pinDigest", "digest"],
+      "commitMessagePrefix": ":pushpin:"
+    }
+  ]
+}
