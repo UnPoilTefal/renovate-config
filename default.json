@@ -10,7 +10,7 @@
   "commitMessagePrefix": ":arrow_up:",
   "labels": ["renovate"],
   "prConcurrentLimit": 6,
-  "prHourlyLimit": 2,
+  "prHourlyLimit": 0,
   "rebaseWhen": "behind-base-branch",
   "minimumReleaseAge": "3 days",
   "packageRules": [
