@@ -25,10 +25,12 @@ Fonctionne depuis GitHub (app Mend hébergée) **et** depuis GitLab (Renovate CE
 | Stabilité | `minimumReleaseAge: 3 days` | évite les releases cassées/retirées à chaud (les fixes de sécurité contournent le délai) |
 | Automerge | aucun | tout passe en revue — sur les repos GitOps un merge = déploiement (ArgoCD selfHeal) |
 | Rebase | `rebaseWhen: behind-base-branch` | les projets GitLab sont en merge fast-forward : Renovate maintient ses MRs rebasées donc mergeables |
-| Limites | 6 MRs concurrentes, 2/heure | lisser la charge CI sans transformer un retard de merge en embouteillage |
+| Limites | 6 MRs concurrentes, débit horaire désactivé | un seul gouverneur : le nombre de MRs ouvertes borne déjà les pipelines en vol |
 | Divers | dependency dashboard (issue épinglée), timezone Europe/Paris, label `renovate` | visibilité et cohérence |
 
 `prConcurrentLimit` porté de 3 à 6 le 2026-08-09 : sur `ansible/homedropzone`, trois MRs restées ouvertes depuis fin juillet saturaient le plafond, et les cinq mises à jour suivantes sont restées en « Rate-Limited » pendant neuf jours. À 3, le moindre retard de merge suffit à bloquer un repo entier — d'autant que `rebaseWhen: behind-base-branch` ne rattrape rien si Renovate a classé les MRs en « Edited (Blocked) ».
+
+`prHourlyLimit` désactivé (`0`) dans la foulée, le même jour. Les deux limites ne font pas le même travail et leur interaction rend tout diagnostic pénible : `prConcurrentLimit` borne les MRs **ouvertes**, `prHourlyLimit` borne les MRs **créées par heure**. Une fois le deadlock levé, le run suivant n'a créé que 2 MRs sur 5 — non plus à cause du plafond, mais du débit. On garde un seul gouverneur : le nombre de MRs ouvertes borne déjà les pipelines en vol sur le runner mono-job du NAS. Le justificatif d'origine (lisser la charge CI) datait de l'époque où Renovate scannait depuis la CI, avant Renovate CE.
 
 Décisions revues le 2026-07-18 : `group:allNonMajor` retiré (tout-ou-rien au merge, changelogs mélangés — et l'argument runner est tombé depuis que Renovate CE sort les scans de la CI).
 
