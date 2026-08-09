@@ -9,7 +9,7 @@
   "semanticCommits": "disabled",
   "commitMessagePrefix": ":arrow_up:",
   "labels": ["renovate"],
-  "prConcurrentLimit": 3,
+  "prConcurrentLimit": 6,
   "prHourlyLimit": 2,
   "rebaseWhen": "behind-base-branch",
   "minimumReleaseAge": "3 days",
