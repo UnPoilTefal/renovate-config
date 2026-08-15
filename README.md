@@ -24,6 +24,7 @@ Fonctionne depuis GitHub (app Mend hébergée) **et** depuis GitLab (Renovate CE
 | Majors | `dependencyDashboardApproval` | MR créée uniquement quand on coche la case dans le Dependency Dashboard — zéro bruit non sollicité |
 | Stabilité | `minimumReleaseAge: 3 days` | évite les releases cassées/retirées à chaud (les fixes de sécurité contournent le délai) |
 | Automerge | aucun | tout passe en revue — sur les repos GitOps un merge = déploiement (ArgoCD selfHeal) |
+| Vulnérabilités | `:enableVulnerabilityAlerts`, label `security` | MR immédiate dès qu'une alerte Dependabot est détectée — Renovate bypasse alors lui-même `minimumReleaseAge` et `dependencyDashboardApproval` en interne (comportement documenté de Renovate, pas une règle qu'on écrit ici). Gratuit, aucune licence Mend requise — juste la permission GitHub App à jour (couverte si l'installation est en mode « All repositories »). |
 | Rebase | `rebaseWhen: behind-base-branch` | les projets GitLab sont en merge fast-forward : Renovate maintient ses MRs rebasées donc mergeables |
 | Limites | 6 MRs concurrentes, débit horaire désactivé | un seul gouverneur : le nombre de MRs ouvertes borne déjà les pipelines en vol |
 | Divers | dependency dashboard (issue épinglée), timezone Europe/Paris, label `renovate` | visibilité et cohérence |

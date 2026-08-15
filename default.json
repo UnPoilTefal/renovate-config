@@ -4,11 +4,15 @@
   "extends": [
     "config:recommended",
     ":timezone(Europe/Paris)",
-    ":dependencyDashboard"
+    ":dependencyDashboard",
+    ":enableVulnerabilityAlerts"
   ],
   "semanticCommits": "disabled",
   "commitMessagePrefix": ":arrow_up:",
   "labels": ["renovate"],
+  "vulnerabilityAlerts": {
+    "labels": ["security"]
+  },
   "prConcurrentLimit": 6,
   "prHourlyLimit": 0,
   "rebaseWhen": "behind-base-branch",
