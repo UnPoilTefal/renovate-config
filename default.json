@@ -17,6 +17,7 @@
   "prHourlyLimit": 0,
   "rebaseWhen": "behind-base-branch",
   "minimumReleaseAge": "3 days",
+  "minimumReleaseAgeBehaviour": "assume-old",
   "packageRules": [
     {
       "description": "Gitmoji :pushpin: pour les pins et digests",
