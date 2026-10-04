@@ -21,6 +21,7 @@ Fonctionne depuis GitHub (app Mend hébergée) **et** depuis GitLab (Renovate CE
 |---------|--------|----------|
 | Base | `config:recommended` | défauts Renovate raisonnables ; groupement des seuls monorepos connus — sinon 1 MR par dépendance (blame précis, revert facile) |
 | Commits | gitmoji `:arrow_up:` (`:pushpin:` pour pins/digests), semantic commits désactivés | convention gitmoji de tous les repos |
+| Go | mises à jour non majeures des modules regroupées en une PR, `gomodTidy` | elles modifient toutes `go.sum` : en PR séparées, chaque merge met les autres en conflit (voir plus bas) |
 | Majors | `dependencyDashboardApproval` | MR créée uniquement quand on coche la case dans le Dependency Dashboard — zéro bruit non sollicité |
 | Stabilité | `minimumReleaseAge: 3 days` | évite les releases cassées/retirées à chaud (les fixes de sécurité contournent le délai) |
 | Automerge | aucun | tout passe en revue — sur les repos GitOps un merge = déploiement (ArgoCD selfHeal) |
@@ -34,6 +35,8 @@ Fonctionne depuis GitHub (app Mend hébergée) **et** depuis GitLab (Renovate CE
 `prHourlyLimit` désactivé (`0`) dans la foulée, le même jour. Les deux limites ne font pas le même travail et leur interaction rend tout diagnostic pénible : `prConcurrentLimit` borne les MRs **ouvertes**, `prHourlyLimit` borne les MRs **créées par heure**. Une fois le deadlock levé, le run suivant n'a créé que 2 MRs sur 5 — non plus à cause du plafond, mais du débit. On garde un seul gouverneur : le nombre de MRs ouvertes borne déjà les pipelines en vol sur le runner mono-job du NAS. Le justificatif d'origine (lisser la charge CI) datait de l'époque où Renovate scannait depuis la CI, avant Renovate CE.
 
 Décisions revues le 2026-07-18 : `group:allNonMajor` retiré (tout-ou-rien au merge, changelogs mélangés — et l'argument runner est tombé depuis que Renovate CE sort les scans de la CI).
+
+Exception pour Go, le 2026-10-04 : les mises à jour non majeures des modules `gomod` sont regroupées. Sur `night-shift`, onze PR en une journée se sont mises en conflit l'une après l'autre sur `go.sum` : chaque merge en rendait d'autres non mergeables, et il fallait attendre le rebase de Renovate puis un nouveau tour de CI, ou les regrouper à la main. Les deux inconvénients relevés le 2026-07-18 valent toujours, mais restent limités aux modules Go. Les alertes de sécurité restent en PR séparées, et les majeures sur approbation.
 
 ## Ce qui reste local aux repos
 

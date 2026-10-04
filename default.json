@@ -18,6 +18,7 @@
   "rebaseWhen": "behind-base-branch",
   "minimumReleaseAge": "3 days",
   "minimumReleaseAgeBehaviour": "assume-old",
+  "postUpdateOptions": ["gomodTidy"],
   "packageRules": [
     {
       "description": "Gitmoji :pushpin: pour les pins et digests",
@@ -28,6 +29,12 @@
       "description": "Majors créées uniquement sur approbation via le Dependency Dashboard",
       "matchUpdateTypes": ["major"],
       "dependencyDashboardApproval": true
+    },
+    {
+      "description": "Go : une seule PR pour les mises à jour non majeures, qui partagent go.sum et se mettent sinon en conflit à chaque merge",
+      "matchManagers": ["gomod"],
+      "matchUpdateTypes": ["minor", "patch", "digest"],
+      "groupName": "modules Go (non majeurs)"
     }
   ]
 }
